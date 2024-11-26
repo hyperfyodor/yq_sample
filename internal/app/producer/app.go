@@ -113,15 +113,15 @@ L:
 
 func (app *App) worker(id int, jobs <-chan int, errs chan<- error, ctx context.Context, wg *sync.WaitGroup) {
 	defer wg.Done()
-	log := app.log.With("worker_id", id)
+	logger := app.log.With("worker_id", id)
 	for range jobs {
 		id, err := app.producerService.Produce(ctx)
 
 		if err != nil {
-			log.Error("failed to produce task", helpers.SlErr(err))
+			logger.Error("failed to produce task", helpers.SlErr(err))
 			errs <- err
 		}
 
-		log.Debug("successfully produced task", slog.String("id", strconv.Itoa(id)))
+		logger.Debug("successfully produced task", slog.String("id", strconv.Itoa(id)))
 	}
 }

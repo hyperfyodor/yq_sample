@@ -1,0 +1,17 @@
+mps: 10000
+max_backlog: 1000000
+logging_level: "debug"
+logging_type: "text"
+metrics_port: 2112
+profiling_port: 8081
+db:
+  port: 5432
+  host: "localhost"
+  name: "tasks"
+  username: "username"
+  password: "password"
+  ssl_mode: "disable"
+  pool_size: 70
+grpc:
+  port: 3333
+  host: "localhost"

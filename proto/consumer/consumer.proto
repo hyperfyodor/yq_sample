@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package consumer;
+
+option go_package = "github.com/hyperfyodor/yq_sample/proto/consumer/gen";
+
+service ConsumerService {
+  rpc ProcessTask(ProcessTaskRequest) returns (ProcessTaskResponse);
+}
+
+message ProcessTaskRequest{
+  int32 id = 1;
+  int32 type = 2;
+  int32 value = 3;
+}
+
+message ProcessTaskResponse{}

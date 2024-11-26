@@ -20,6 +20,7 @@ type App struct {
 	log             *slog.Logger
 	config          *config.Config
 	producerService *service.Producer
+	postgres        *storage.PostgresStorage
 	numberOfWorkers int
 }
 
@@ -73,6 +74,7 @@ func MustLoad(ctx context.Context) *App {
 		config:          cfg,
 		producerService: producer,
 		numberOfWorkers: numberOfWorkers,
+		postgres:        postgres,
 	}
 }
 
@@ -106,6 +108,7 @@ L:
 	app.log.Info("waiting for workers to finish")
 	wg.Wait()
 	app.log.Info("all workers finished")
+	app.postgres.Close()
 }
 
 func (app *App) worker(id int, jobs <-chan int, errs chan<- error, ctx context.Context, wg *sync.WaitGroup) {

@@ -1,0 +1,15 @@
+mcr: 100000
+logging_level: "info"
+logging_type: "text"
+metrics_port: 2113
+profiling_port: 8080
+db:
+  port: 5432
+  host: "localhost"
+  name: "tasks"
+  username: "username"
+  password: "password"
+  ssl_mode: "disable"
+  pool_size: 20
+grpc:
+  port: 3333

@@ -14,8 +14,16 @@ proto_gen:
 producer:
 	go run -ldflags "$(LDFLAGS)" ./cmd/producer
 
+consumer:
+	go run -ldflags  "$(LDFLAGS)" ./cmd/consumer
+
 compose:
 	cd docker && docker-compose up -d
 
 compose_clean:
 	cd docker && docker-compose down -v
+
+explain:
+	go run ./cmd/consumer -cfg_explain
+	go run ./cmd/producer -cfg_explain
+	#go run ./cmd/migrator -cfg_explain

@@ -1,0 +1,8 @@
+source_url: "file://./migration"
+db:
+  port: 5432
+  host: "localhost"
+  name: "tasks"
+  username: "username"
+  password: "password"
+  ssl_mode: "disable"

@@ -26,4 +26,9 @@ compose_clean:
 explain:
 	go run ./cmd/consumer -cfg_explain
 	go run ./cmd/producer -cfg_explain
-	#go run ./cmd/migrator -cfg_explain
+	go run ./cmd/migrator -cfg_explain
+
+version:
+	go run -ldflags "$(LDFLAGS)" ./cmd/consumer -version
+	go run -ldflags "$(LDFLAGS)" ./cmd/producer -version
+	go run -ldflags "$(LDFLAGS)" ./cmd/migrator -version

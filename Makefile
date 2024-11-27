@@ -1,7 +1,6 @@
 include .env
 
-GIT_TAG := 0.0.1
-#GIT_TAG := $(shell git describe --tags --abbrev=0)
+GIT_TAG := $(shell git describe --tags --abbrev=0)
 MODULE_NAME := $(shell go list -m)
 LDFLAGS := -X $(MODULE_NAME)/pkg.Version=$(GIT_TAG) -s -w
 

@@ -26,6 +26,12 @@ compose:
 compose_clean:
 	cd docker && docker-compose down -v
 
+test_unit:
+	go test ./internal...
+
+test_integration:
+	go test ./test -count=1 -v
+
 explain:
 	go run ./cmd/consumer -cfg_explain
 	go run ./cmd/producer -cfg_explain

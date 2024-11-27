@@ -49,24 +49,26 @@ func (q *Queries) GetTaskState(ctx context.Context, id int32) (string, error) {
 	return state, err
 }
 
-const setStateToDone = `-- name: SetStateToDone :exec
+const setStateToDone = `-- name: SetStateToDone :one
 UPDATE tasks
 SET state = 'done', last_update_time = extract(epoch from now())
-WHERE id = $1
+WHERE id = $1 RETURNING id
 `
 
-func (q *Queries) SetStateToDone(ctx context.Context, id int32) error {
-	_, err := q.db.Exec(ctx, setStateToDone, id)
-	return err
+func (q *Queries) SetStateToDone(ctx context.Context, id int32) (int32, error) {
+	row := q.db.QueryRow(ctx, setStateToDone, id)
+	err := row.Scan(&id)
+	return id, err
 }
 
-const setStateToProcessing = `-- name: SetStateToProcessing :exec
+const setStateToProcessing = `-- name: SetStateToProcessing :one
 UPDATE tasks
 SET state = 'processing', last_update_time = extract(epoch from now())
-WHERE id = $1
+WHERE id = $1 RETURNING id
 `
 
-func (q *Queries) SetStateToProcessing(ctx context.Context, id int32) error {
-	_, err := q.db.Exec(ctx, setStateToProcessing, id)
-	return err
+func (q *Queries) SetStateToProcessing(ctx context.Context, id int32) (int32, error) {
+	row := q.db.QueryRow(ctx, setStateToProcessing, id)
+	err := row.Scan(&id)
+	return id, err
 }

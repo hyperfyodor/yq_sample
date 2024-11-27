@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"fmt"
 	"github.com/hyperfyodor/yq_sample/db/postgres"
 	"github.com/hyperfyodor/yq_sample/internal/helpers"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -80,10 +81,14 @@ func (p *PostgresStorage) Done(ctx context.Context, id int) error {
 	case <-ctx.Done():
 		return helpers.WrapErr(op, ctx.Err())
 	default:
-		err := p.queries.SetStateToDone(ctx, int32(id))
+		id2, err := p.queries.SetStateToDone(ctx, int32(id))
 
 		if err != nil {
 			return helpers.WrapErr(op, err)
+		}
+
+		if int32(id) != id2 {
+			return helpers.WrapErr(op, fmt.Errorf("id=%v not found", id))
 		}
 
 		return nil
@@ -97,10 +102,14 @@ func (p *PostgresStorage) Processing(ctx context.Context, id int) error {
 	case <-ctx.Done():
 		return helpers.WrapErr(op, ctx.Err())
 	default:
-		err := p.queries.SetStateToProcessing(ctx, int32(id))
+		id2, err := p.queries.SetStateToProcessing(ctx, int32(id))
 
 		if err != nil {
 			return helpers.WrapErr(op, err)
+		}
+
+		if int32(id) != id2 {
+			return helpers.WrapErr(op, fmt.Errorf("id=%v not found", id))
 		}
 
 		return nil

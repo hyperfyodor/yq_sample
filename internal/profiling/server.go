@@ -6,6 +6,5 @@ import (
 )
 
 func Listen(port string) error {
-	mux := http.NewServeMux()
-	return http.ListenAndServe(":"+port, mux)
+	return http.ListenAndServe(":"+port, nil)
 }

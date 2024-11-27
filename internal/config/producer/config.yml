@@ -1,5 +1,5 @@
 mps: 100000
-max_backlog: 1000000
+max_backlog: 2000000
 logging_level: "info"
 logging_type: "text"
 metrics_port: 2112

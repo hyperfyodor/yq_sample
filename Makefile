@@ -26,7 +26,10 @@ consumer_pgo:
 	go run -pgo ./profiles/csm_cpu.pgo -ldflags  "$(LDFLAGS)" ./cmd/consumer
 
 migrate:
-	go run -ldflags  "$(LDFLAGS)" ./cmd/migrator
+	go run -ldflags  "$(LDFLAGS)" ./cmd/migrator -steps=1
+
+drop:
+	go run -ldflags  "$(LDFLAGS)" ./cmd/migrator -steps=-1
 
 compose:
 	cd docker && docker-compose up -d
@@ -52,8 +55,10 @@ version:
 
 consumer_cpu:
 	go tool pprof -http=127.0.0.1:9999 http://localhost:${CSM_PROFILING_PORT}/debug/pprof/profile
+
 consumer_goroutine:
 	go tool pprof -http=127.0.0.1:9998 http://localhost:${CSM_PROFILING_PORT}/debug/pprof/goroutine
+
 consumer_heap:
 	go tool pprof -http=127.0.0.1:9997 http://localhost:${CSM_PROFILING_PORT}/debug/pprof/heap
 
@@ -64,12 +69,18 @@ consumer_profiles:
 
 producer_cpu:
 	go tool pprof -http=127.0.0.1:9999 http://localhost:${PRD_PROFILING_PORT}/debug/pprof/profile
-consumer_goroutine:
+
+producer_goroutine:
 	go tool pprof -http=127.0.0.1:9998 http://localhost:${PRD_PROFILING_PORT}/debug/pprof/goroutine
-consumer_heap:
+
+producer_heap:
 	go tool pprof -http=127.0.0.1:9997 http://localhost:${PRD_PROFILING_PORT}/debug/pprof/heap
 
 producer_profiles:
 	curl -o ./profiles/prd_cpu.pprof http://localhost:${PRD_PROFILING_PORT}/debug/pprof/profile
 	curl -o ./profiles/prd_goroutine.pprof http://localhost:${PRD_PROFILING_PORT}/debug/pprof/goroutine
 	curl -o ./profiles/prd_heap.pprof http://localhost:${PRD_PROFILING_PORT}/debug/pprof/heap
+
+profiles:
+	make consumer_profiles
+	make producer_profiles

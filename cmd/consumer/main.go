@@ -42,6 +42,8 @@ func main() {
 	app := consumer.MustLoad(ctx)
 
 	go app.Start()
+	go app.StartMetrics()
+	go app.StartProfiling()
 
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT)
@@ -49,6 +51,6 @@ func main() {
 	<-stop
 	app.Stop()
 	cancel()
-	log.Println("Producer finished!")
+	log.Println("Consumer finished!")
 
 }

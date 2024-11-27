@@ -17,6 +17,9 @@ producer:
 consumer:
 	go run -ldflags  "$(LDFLAGS)" ./cmd/consumer
 
+migrate:
+	go run -ldflags  "$(LDFLAGS)" ./cmd/migrator
+
 compose:
 	cd docker && docker-compose up -d
 

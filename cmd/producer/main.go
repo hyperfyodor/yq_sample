@@ -43,6 +43,8 @@ func main() {
 	app := producer.MustLoad(ctx)
 
 	go app.Start(ctx)
+	go app.StartMetrics()
+	go app.StartProfiling()
 
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT)

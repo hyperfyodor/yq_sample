@@ -8,7 +8,9 @@ import (
 	config "github.com/hyperfyodor/yq_sample/internal/config/consumer"
 	consumersrvr "github.com/hyperfyodor/yq_sample/internal/grpc"
 	"github.com/hyperfyodor/yq_sample/internal/helpers"
+	metricssrvr "github.com/hyperfyodor/yq_sample/internal/metrics"
 	metrics "github.com/hyperfyodor/yq_sample/internal/metrics/consumer"
+	"github.com/hyperfyodor/yq_sample/internal/profiling"
 	service "github.com/hyperfyodor/yq_sample/internal/service/consumer"
 	"github.com/hyperfyodor/yq_sample/internal/storage"
 	"github.com/hyperfyodor/yq_sample/proto/consumer/gen"
@@ -99,6 +101,20 @@ func (app *App) Start() {
 		app.log.Error("failed to serve", helpers.SlErr(err))
 
 		panic(err)
+	}
+}
+
+func (app *App) StartMetrics() {
+	app.log.Info("starting metrics", slog.String("addr", ":"+app.config.MetricsPort+"/metrics"))
+	if err := metricssrvr.Listen(app.config.MetricsPort); err != nil {
+		app.log.Error("failed to start metrics server", slog.String("addr", ":"+app.config.MetricsPort+"/metrics"))
+	}
+}
+
+func (app *App) StartProfiling() {
+	app.log.Info("starting profiling", slog.String("addr", ":"+app.config.ProfilingPort))
+	if err := profiling.Listen(app.config.ProfilingPort); err != nil {
+		app.log.Error("failed to start profiling server", slog.String("addr", ":"+app.config.ProfilingPort))
 	}
 }
 

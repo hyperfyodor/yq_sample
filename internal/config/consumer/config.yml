@@ -10,6 +10,6 @@ db:
   username: "username"
   password: "password"
   ssl_mode: "disable"
-  pool_size: 20
+  pool_size: 45
 grpc:
   port: 3333

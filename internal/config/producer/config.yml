@@ -1,6 +1,6 @@
-mps: 10000
+mps: 100000
 max_backlog: 1000000
-logging_level: "debug"
+logging_level: "info"
 logging_type: "text"
 metrics_port: 2112
 profiling_port: 8081
@@ -11,7 +11,7 @@ db:
   username: "username"
   password: "password"
   ssl_mode: "disable"
-  pool_size: 70
+  pool_size: 45
 grpc:
   port: 3333
   host: "localhost"

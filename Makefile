@@ -68,13 +68,13 @@ consumer_profiles:
 	curl -o ./profiles/csm_heap.pprof http://localhost:${CSM_PROFILING_PORT}/debug/pprof/heap
 
 producer_cpu:
-	go tool pprof -http=127.0.0.1:9999 http://localhost:${PRD_PROFILING_PORT}/debug/pprof/profile
+	go tool pprof -http=127.0.0.1:9996 http://localhost:${PRD_PROFILING_PORT}/debug/pprof/profile
 
 producer_goroutine:
-	go tool pprof -http=127.0.0.1:9998 http://localhost:${PRD_PROFILING_PORT}/debug/pprof/goroutine
+	go tool pprof -http=127.0.0.1:9995 http://localhost:${PRD_PROFILING_PORT}/debug/pprof/goroutine
 
 producer_heap:
-	go tool pprof -http=127.0.0.1:9997 http://localhost:${PRD_PROFILING_PORT}/debug/pprof/heap
+	go tool pprof -http=127.0.0.1:9994 http://localhost:${PRD_PROFILING_PORT}/debug/pprof/heap
 
 producer_profiles:
 	curl -o ./profiles/prd_cpu.pprof http://localhost:${PRD_PROFILING_PORT}/debug/pprof/profile

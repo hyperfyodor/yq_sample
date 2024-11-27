@@ -1,6 +1,6 @@
 mps: 100000
-max_backlog: 2000000
-logging_level: "info"
+max_backlog: 1000000
+logging_level: "error"
 logging_type: "text"
 metrics_port: 2112
 profiling_port: 8081

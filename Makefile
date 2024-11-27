@@ -16,8 +16,14 @@ proto_gen:
 producer:
 	go run -ldflags "$(LDFLAGS)" ./cmd/producer
 
+producer_pgo:
+	go run -pgo ./profiles/prd_cpu.pgo -ldflags "$(LDFLAGS)" ./cmd/producer
+
 consumer:
 	go run -ldflags  "$(LDFLAGS)" ./cmd/consumer
+
+consumer_pgo:
+	go run -pgo ./profiles/csm_cpu.pgo -ldflags  "$(LDFLAGS)" ./cmd/consumer
 
 migrate:
 	go run -ldflags  "$(LDFLAGS)" ./cmd/migrator

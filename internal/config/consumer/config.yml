@@ -1,5 +1,5 @@
 mcr: 100000
-logging_level: "info"
+logging_level: "error"
 logging_type: "text"
 metrics_port: 2113
 profiling_port: 8080

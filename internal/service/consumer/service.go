@@ -46,8 +46,6 @@ func New(log *slog.Logger, stateUpdater StateUpdater, metrics MetricsForConsumer
 func (consumer *Consumer) Consume(ctx context.Context, taskId, taskType, taskValue int) error {
 	const op = "internal.service.consumer.Consume"
 
-	consumer.metrics.TaskJustReceived()
-
 	log := consumer.log.With(
 		slog.String("task_id", strconv.Itoa(taskId)),
 		slog.String("op", op),
@@ -57,6 +55,8 @@ func (consumer *Consumer) Consume(ctx context.Context, taskId, taskType, taskVal
 	case <-ctx.Done():
 		return helpers.WrapErr(op, ctx.Err())
 	default:
+		consumer.metrics.TaskJustReceived()
+
 		log.Debug("setting task state to 'processing'")
 
 		if err := consumer.stateUpdater.Processing(ctx, taskId); err != nil {

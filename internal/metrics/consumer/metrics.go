@@ -6,10 +6,10 @@ import (
 )
 
 type Metrics struct {
-	taskCountPerState         *prometheus.GaugeVec
-	taskTotalReceived         prometheus.Counter
-	taskTotalPerTaskType      *prometheus.CounterVec
-	taskTotalValuePerTaskType *prometheus.CounterVec
+	TaskCountPerState         *prometheus.GaugeVec
+	TaskTotalReceived         prometheus.Counter
+	TaskTotalPerTaskType      *prometheus.CounterVec
+	TaskTotalValuePerTaskType *prometheus.CounterVec
 }
 
 func MustLoad() *Metrics {
@@ -39,18 +39,25 @@ func MustLoad() *Metrics {
 }
 
 func (m *Metrics) TaskJustReceived() {
-	m.taskTotalReceived.Inc()
-	m.taskCountPerState.WithLabelValues("received").Inc()
+	m.TaskTotalReceived.Inc()
+	m.TaskCountPerState.WithLabelValues("received").Inc()
 }
 
 func (m *Metrics) TaskIsProcessing() {
-	m.taskCountPerState.WithLabelValues("received").Dec()
-	m.taskCountPerState.WithLabelValues("processing").Inc()
+	m.TaskCountPerState.WithLabelValues("received").Dec()
+	m.TaskCountPerState.WithLabelValues("processing").Inc()
 }
 
 func (m *Metrics) TaskIsDone(taskType int, taskValue int) {
-	m.taskCountPerState.WithLabelValues("processing").Dec()
-	m.taskCountPerState.WithLabelValues("done").Inc()
-	m.taskTotalPerTaskType.WithLabelValues(strconv.Itoa(taskType)).Inc()
-	m.taskTotalValuePerTaskType.WithLabelValues(strconv.Itoa(taskType)).Add(float64(taskValue))
+	m.TaskCountPerState.WithLabelValues("processing").Dec()
+	m.TaskCountPerState.WithLabelValues("done").Inc()
+	m.TaskTotalPerTaskType.WithLabelValues(strconv.Itoa(taskType)).Inc()
+	m.TaskTotalValuePerTaskType.WithLabelValues(strconv.Itoa(taskType)).Add(float64(taskValue))
+}
+
+func (m *Metrics) Unregister() {
+	prometheus.Unregister(m.TaskTotalPerTaskType)
+	prometheus.Unregister(m.TaskTotalValuePerTaskType)
+	prometheus.Unregister(m.TaskCountPerState)
+	prometheus.Unregister(m.TaskTotalReceived)
 }

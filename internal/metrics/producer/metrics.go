@@ -3,7 +3,7 @@ package producer
 import "github.com/prometheus/client_golang/prometheus"
 
 type Metrics struct {
-	totalProduced prometheus.Counter
+	TotalProduced prometheus.Counter
 }
 
 func MustLoad() *Metrics {
@@ -18,5 +18,9 @@ func MustLoad() *Metrics {
 }
 
 func (p *Metrics) TotalProducedInc() {
-	p.totalProduced.Inc()
+	p.TotalProduced.Inc()
+}
+
+func (p *Metrics) Unregister() {
+	prometheus.Unregister(p.TotalProduced)
 }

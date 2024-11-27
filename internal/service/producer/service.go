@@ -67,7 +67,7 @@ func (producer *Producer) Produce(ctx context.Context) (int, error) {
 	select {
 	case <-ctx.Done():
 		log.Debug("context canceled")
-		return 0, ctx.Err()
+		return 0, helpers.WrapErr(op, ctx.Err())
 	default:
 		taskType := randRange(0, 10)
 		taskValue := randRange(0, 100)
